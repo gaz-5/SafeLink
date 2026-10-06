@@ -1,0 +1,143 @@
+
+/* website colors */
+:root {
+    color-scheme: dark;
+    --primary-color: #2563eb;
+    --title-color: #93c5fd;
+    --text-color: #e2e8f0;
+    --background-color: #0f172a;
+    --card-background: #1e293b;
+    --border-color: #334155;
+    --safe-color: #15803d;
+    --warning-color: #b45309;
+    --danger-color: #b91c1c;
+}
+
+/* font and colors */
+body {
+    font-family: "Google Sans Flex", system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* keep boxes on the center */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* header with line */
+header {
+    color: var(--title-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* main title */
+h1 {
+    color: var(--title-color);
+    margin: 0;
+    font-size: 2.2rem;
+}
+
+/* text under the title */
+.tagline {
+    margin: 0.25rem 0 0 0;
+}
+
+/* boxes around each section */
+.card {
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* form labels */
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* inputs and button fonts */
+input,
+button {
+    font-family: inherit;
+}
+
+/* links and the URL use fira mono font */
+a,
+#url-input {
+    font-family: "Fira Mono", monospace;
+}
+
+/* text and file input boxes */
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+}
+
+/* box outline when selected */
+input[type="text"]:focus,
+button:focus {
+    outline: 3px solid #f59e0b;
+    outline-offset: 2px;
+}
+
+/* buttons */
+button {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* button color on mouse hover */
+button:hover {
+    background-color: #1e40af;
+}
+
+/* box that shows the safety result */
+.score-box {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f1f5f9;
+    border-radius: 6px;
+}
+
+/* big safety score number */
+.score-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--safe-color);
+}
+
+/* bottom of the page */
+footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    text-align: center;
+    color: #94a3b8;
+}
