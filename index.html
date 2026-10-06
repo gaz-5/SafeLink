@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SafeLink - A simple URL and link safety checker designed for all users.">
-    <title>SafeLink - Link Safety Checker Prototype</title>
+    <title>SafeLink - Link Safety Checker</title>
 
     
     <style>
@@ -130,11 +130,17 @@
 
     <div class="container">
 
-        <!-- Header Landmark -->
-        <header role="banner">
-            <h1>SafeLink</h1>
-            <p><strong>Simple URL and QR Code Safety Checker</strong></p>
-        </header>
+       
+<header role="banner" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary-color); padding-bottom: 1rem; margin-bottom: 2rem;">
+    <div>
+        <h1 style="margin: 0;">SafeLink</h1>
+        <p style="margin: 0.25rem 0 0 0;"><strong>Simple URL and QR Code Safety Checker</strong></p>
+    </div>
+    <nav aria-label="Account Navigation">
+        <a href="signin.html" style="margin-right: 1rem; font-weight: bold; color: var(--primary-color); text-decoration: none;">Sign In</a>
+        <a href="register.html" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold;">Register</a>
+    </nav>
+</header>
 
         <!-- Main Content Landmark -->
         <main id="main-content" role="main">
@@ -174,7 +180,7 @@
 
         <!-- Footer Landmark -->
         <footer role="contentinfo" style="margin-top: 3rem; font-size: 0.9rem; text-align: center; color: #64748b;">
-            <p>&copy; SafeLink Project — Valid W3C HTML5 Prototype</p>
+            <p>&copy; SafeLink Project</p>
         </footer>
 
     </div>
