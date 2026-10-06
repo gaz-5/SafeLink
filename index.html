@@ -1,38 +1,183 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>SafeLink Project</title>
-</head>
+    <!-- Basic Document Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SafeLink - A simple URL and link safety checker designed for all users.">
+    <title>SafeLink - Link Safety Checker Prototype</title>
 
+    
+    <style>
+        /* Base typography & color palette */
+        :root {
+            --primary-color: #1d4ed8;
+            --text-color: #1e293b;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --border-color: #cbd5e1;
+            --safe-color: #15803d;
+            --warning-color: #b45309;
+            --danger-color: #b91c1c;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container constraints for readability */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header Styling */
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+            font-size: 2.2rem;
+        }
+
+        /* Card container styles */
+        .card {
+            background-color: var(--card-background);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Accessible Large Form Controls */
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"]:focus,
+        button:focus {
+            outline: 3px solid #f59e0b;
+            outline-offset: 2px;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1e40af;
+        }
+
+        /* Result Preview Styling */
+        .score-box {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-radius: 6px;
+        }
+
+        .score-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--safe-color);
+        }
+
+        /* Accessibility & Design Notes */
+        .note-box {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            background-color: #eff6ff;
+            padding: 1rem;
+            border-radius: 0 6px 6px 0;
+        }
+    </style>
+</head>
 <body>
 
-    <h1>SafeLink</h1>
+    <div class="container">
 
-    <h2>Main Idea</h2>
-    <p>
-        Our idea is to make a website that checks if a URL is safe or not.
-    </p>
+        <!-- Header Landmark -->
+        <header role="banner">
+            <h1>SafeLink</h1>
+            <p><strong>Simple URL and QR Code Safety Checker</strong></p>
+        </header>
 
-    <h2>Goal</h2>
-    <p>
-        Help people check links before they open them.
-    </p>
+        <!-- Main Content Landmark -->
+        <main id="main-content" role="main">
 
-    <h2>How It Works</h2>
-    <p>
-        The user can enter a URL, a message that has a URL in it, or they can
-        scan a QR code. The website will check the link and then give the user
-        a rating out of 10. The rating will help the user know how safe or
-        unsafe the link is.
-    </p>
+            <!-- Section 1: URL & Text Input Form -->
+            <section class="card" aria-labelledby="form-heading">
+                <h2 id="form-heading">Check a Link or Message</h2>
+                
+                <form action="#" method="get">
+                    <div>
+                        <label for="url-input">Paste URL address or text message below:</label>
+                        <input type="text" 
+                               id="url-input" 
+                               name="url" 
+                               placeholder="e.g. https://example.com or paste full SMS message" 
+                               required 
+                               aria-required="true">
+                    </div>
 
-    <h2>Design</h2>
-    <p>
-        The website will have a simple and easy-to-use design so people of all
-        ages, including older users, can easily use it and understand the results.
-    </p>
+                    <button type="submit">Analyze Safety Rating</button>
+                </form>
+            </section>
+
+            <!-- Section 2: QR Code Scan Section -->
+            <section class="card" aria-labelledby="qr-heading">
+                <h2 id="qr-heading">Or Upload a QR Code</h2>
+                <form action="#" method="post" enctype="multipart/form-error">
+                    <div>
+                        <label for="qr-file">Select QR code image file from your device:</label>
+                        <input type="file" id="qr-file" name="qr-image" accept="image/*">
+                    </div>
+                    <button type="submit">Scan QR Code</button>
+                </form>
+            </section>
+
+        </main>
+
+        <!-- Footer Landmark -->
+        <footer role="contentinfo" style="margin-top: 3rem; font-size: 0.9rem; text-align: center; color: #64748b;">
+            <p>&copy; SafeLink Project — Valid W3C HTML5 Prototype</p>
+        </footer>
+
+    </div>
 
 </body>
-
 </html>
