@@ -151,3 +151,262 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+
+/* ---------- icons ---------- */
+.icon {
+    width: 1.3em;
+    height: 1.3em;
+    flex-shrink: 0;
+}
+
+.icon-lg {
+    width: 2.6rem;
+    height: 2.6rem;
+}
+
+.icon-xl {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+/* header buttons sit side by side */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* round icon-only button */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem;
+    border-radius: 50%;
+}
+
+/* button with an icon beside the text */
+.btn-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* card heading with an icon beside it */
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0;
+    color: var(--title-color);
+}
+
+
+/* ---------- moving text (ticker) ---------- */
+.ticker {
+    overflow: hidden;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    padding: 0.6rem 0;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker-track span {
+    white-space: nowrap;
+    padding-right: 3rem;
+}
+
+/* pause when the user hovers or focuses, so it is easy to read */
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+    animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+
+/* ---------- choose URL or QR ---------- */
+.choice-heading {
+    text-align: center;
+    margin-top: 0;
+}
+
+.choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* the two big choice buttons */
+.choice-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1.5rem 1rem;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: transform 0.15s, border-color 0.15s;
+}
+
+.choice-btn .icon {
+    color: var(--primary-color);
+}
+
+.choice-btn:hover {
+    background-color: var(--card-background);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* the chosen button */
+.choice-btn[aria-selected="true"] {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-color) inset;
+}
+
+.choice-title {
+    font-size: 1.2rem;
+}
+
+.choice-sub {
+    font-size: 0.9rem;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+.choice-hint {
+    text-align: center;
+    margin: 1rem 0 2rem;
+    opacity: 0.8;
+}
+
+/* make sure hidden sections stay hidden */
+[hidden] {
+    display: none !important;
+}
+
+#panel-url,
+#panel-qr {
+    margin-top: 1.5rem;
+    animation: fade-in 0.25s ease;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+
+
+/* ---------- welcome pop-up ---------- */
+dialog {
+    max-width: 480px;
+    width: calc(100% - 2rem);
+    padding: 2rem;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    text-align: center;
+}
+
+dialog[open] {
+    animation: pop-in 0.25s ease;
+}
+
+dialog::backdrop {
+    background: rgba(15, 23, 42, 0.75);
+}
+
+@keyframes pop-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+dialog h2 {
+    margin: 0.5rem 0;
+    color: var(--title-color);
+}
+
+.dialog-icon {
+    color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+}
+
+/* list of the two features inside the pop-up */
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0;
+    text-align: left;
+}
+
+.steps li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+}
+
+.steps .icon {
+    color: var(--primary-color);
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: normal;
+}
+
+.dialog-actions {
+    margin-top: 1rem;
+}
+
+
+/* ---------- small screens ---------- */
+@media (max-width: 520px) {
+    .choice-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+        flex-wrap: wrap;
+        width: auto;
+    }
+
+    .ticker-track span[aria-hidden="true"] {
+        display: none;
+    }
+
+    dialog[open],
+    #panel-url,
+    #panel-qr {
+        animation: none;
+    }
+}
