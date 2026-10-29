@@ -1,23 +1,19 @@
-// ---------- dark/light mode switch ----------
-const themeToggle = document.getElementById("theme-toggle");
+var themeButton = document.getElementById("theme-toggle");
 
-// show the right button text for the current mode
-function updateToggleText() {
+function updateThemeButton() {
     if (document.body.classList.contains("light")) {
-        themeToggle.textContent = "Dark mode";
+        themeButton.textContent = "Night mode";
     } else {
-        themeToggle.textContent = "Light mode";
+        themeButton.textContent = "Light mode";
     }
 }
 
-// use the mode saved from the last visit
 if (localStorage.getItem("theme") === "light") {
     document.body.classList.add("light");
 }
-updateToggleText();
+updateThemeButton();
 
-// switch modes when the button is clicked, and remember the choice
-themeToggle.addEventListener("click", function () {
+themeButton.addEventListener("click", function () {
     document.body.classList.toggle("light");
 
     if (document.body.classList.contains("light")) {
@@ -26,92 +22,254 @@ themeToggle.addEventListener("click", function () {
         localStorage.setItem("theme", "dark");
     }
 
-    updateToggleText();
+    updateThemeButton();
 });
 
 
-// ---------- welcome pop-up ----------
-const welcomeDialog = document.getElementById("welcome-dialog");
-const welcomeStart = document.getElementById("welcome-start");
-const dontShowAgain = document.getElementById("dont-show-again");
-const helpBtn = document.getElementById("help-btn");
+var welcome = document.getElementById("welcome-dialog");
 
-// show the pop-up on every visit unless the user chose "don't show again"
-if (localStorage.getItem("hideWelcome") !== "yes") {
-    welcomeDialog.showModal();
-}
+if (welcome !== null) {
+    var dontShow = document.getElementById("dont-show-again");
+    var helpButton = document.getElementById("help-btn");
+    var tabUrl = document.getElementById("tab-url");
+    var tabQr = document.getElementById("tab-qr");
+    var tabs = [tabUrl, tabQr];
+    var choiceHint = document.getElementById("choice-hint");
+    var urlInput = document.getElementById("url-input");
+    var qrFile = document.getElementById("qr-file");
+    var resultBox = document.getElementById("result");
 
-// close the pop-up and remember the checkbox choice
-function closeWelcome() {
-    if (dontShowAgain.checked) {
-        localStorage.setItem("hideWelcome", "yes");
-    } else {
-        localStorage.removeItem("hideWelcome");
+    function saveWelcomeChoice() {
+        if (dontShow.checked) {
+            localStorage.setItem("hideWelcome", "yes");
+        } else {
+            localStorage.removeItem("hideWelcome");
+        }
     }
-    welcomeDialog.close();
-}
 
-welcomeStart.addEventListener("click", closeWelcome);
-
-// clicking outside the box also closes it
-welcomeDialog.addEventListener("click", function (event) {
-    if (event.target === welcomeDialog) {
-        closeWelcome();
+    function openWelcome() {
+        dontShow.checked = localStorage.getItem("hideWelcome") === "yes";
+        welcome.showModal();
     }
-});
 
-// the "?" button in the header opens it again
-helpBtn.addEventListener("click", function () {
-    dontShowAgain.checked = localStorage.getItem("hideWelcome") === "yes";
-    welcomeDialog.showModal();
-});
+    function selectTab(name, moveFocus) {
+        var selected = name === "qr" ? tabQr : tabUrl;
 
+        tabs.forEach(function (tab) {
+            var isSelected = tab === selected;
+            document.getElementById(tab.getAttribute("aria-controls")).hidden = !isSelected;
+            tab.setAttribute("aria-selected", isSelected);
+            tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+        });
 
-// ---------- choose URL or QR code ----------
-const tabs = [
-    document.getElementById("tab-url"),
-    document.getElementById("tab-qr")
-];
-const choiceHint = document.getElementById("choice-hint");
+        choiceHint.hidden = true;
+        resultBox.hidden = true;
 
-// show one panel, hide the other, and mark the chosen button
-function selectTab(selected, moveFocus) {
-    tabs.forEach(function (tab) {
-        const isSelected = tab === selected;
-        const panel = document.getElementById(tab.getAttribute("aria-controls"));
+        if (moveFocus) {
+            selected.focus();
+        } else if (name === "qr") {
+            qrFile.focus();
+        } else {
+            urlInput.focus();
+        }
+    }
 
-        tab.setAttribute("aria-selected", isSelected);
-        tab.setAttribute("tabindex", isSelected ? "0" : "-1");
-        panel.hidden = !isSelected;
+    if (localStorage.getItem("hideWelcome") !== "yes") {
+        welcome.showModal();
+    }
+
+    helpButton.addEventListener("click", openWelcome);
+
+    document.querySelectorAll("[data-choice]").forEach(function (button) {
+        button.addEventListener("click", function () {
+            saveWelcomeChoice();
+            welcome.close();
+            selectTab(button.getAttribute("data-choice"), false);
+        });
     });
 
-    choiceHint.hidden = true;
-
-    if (moveFocus) {
-        // arrow keys: keep focus on the choice buttons
-        selected.focus();
-        return;
-    }
-
-    // mouse/tap: put the cursor in the input so the user can start right away
-    const panelId = selected.getAttribute("aria-controls");
-    const target = panelId === "panel-url"
-        ? document.getElementById("url-input")
-        : document.getElementById("qr-file");
-    target.focus();
-}
-
-tabs.forEach(function (tab, index) {
-    tab.addEventListener("click", function () {
-        selectTab(tab, false);
-    });
-
-    // arrow keys move between the two choices
-    tab.addEventListener("keydown", function (event) {
-        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-            const next = tabs[(index + 1) % tabs.length];
-            selectTab(next, true);
-            event.preventDefault();
+    welcome.addEventListener("click", function (event) {
+        if (event.target === welcome) {
+            saveWelcomeChoice();
+            welcome.close();
         }
     });
-});
+
+    tabs.forEach(function (tab, index) {
+        tab.addEventListener("click", function () {
+            selectTab(tab === tabQr ? "qr" : "url", false);
+        });
+
+        tab.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+                var next = tabs[(index + 1) % tabs.length];
+                selectTab(next === tabQr ? "qr" : "url", true);
+                event.preventDefault();
+            }
+        });
+    });
+
+
+    var shorteners = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "cutt.ly", "is.gd", "rb.gy"];
+    var scamWords = ["urgent", "verify", "suspended", "winner", "prize", "free gift", "password", "click here", "bank account"];
+
+    function showResult(title, level, site, reasons) {
+        var list = document.getElementById("result-list");
+
+        document.getElementById("result-title").textContent = title;
+        document.getElementById("result-site").textContent = site;
+
+        list.innerHTML = "";
+        reasons.forEach(function (reason) {
+            var item = document.createElement("li");
+            item.textContent = reason;
+            list.appendChild(item);
+        });
+
+        resultBox.className = "card result " + level;
+        resultBox.hidden = false;
+        resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function analyze(text, prefix) {
+        var lowerText = text.toLowerCase();
+        var reasons = [];
+        var link = "";
+        var host = "";
+        var words = text.split(/\s+/);
+
+        for (var i = 0; i < words.length; i++) {
+            var word = words[i].toLowerCase();
+            if (word.indexOf("http://") === 0 || word.indexOf("https://") === 0 || word.indexOf("www.") === 0) {
+                link = words[i];
+                break;
+            }
+        }
+
+        if (link !== "") {
+            var lowerLink = link.toLowerCase();
+            var rest = lowerLink;
+
+            if (rest.indexOf("://") > -1) {
+                rest = rest.split("://")[1];
+            }
+            host = rest.split("/")[0];
+
+            if (lowerLink.indexOf("http://") === 0) {
+                reasons.push("The link does not use HTTPS, so the connection is not secure.");
+            }
+
+            var digits = host.split(".").join("");
+            if (digits !== "" && !isNaN(digits)) {
+                reasons.push("The link uses a number address instead of a normal website name.");
+            }
+
+            if (lowerLink.indexOf("@") > -1) {
+                reasons.push("The link has an @ sign, which can hide the real website.");
+            }
+
+            if (shorteners.indexOf(host) > -1) {
+                reasons.push("It is a short link, so you cannot see where it really goes.");
+            }
+
+            if (host.indexOf("xn--") > -1) {
+                reasons.push("The website name uses look-alike letters.");
+            }
+
+            if (host.split(".").length > 4) {
+                reasons.push("The link has too many parts before the main website name.");
+            }
+
+            if (link.length > 75) {
+                reasons.push("The link is very long.");
+            }
+        }
+
+        scamWords.forEach(function (scamWord) {
+            if (lowerText.indexOf(scamWord) > -1) {
+                reasons.push("The message uses a pressure word: " + scamWord + ".");
+            }
+        });
+
+        var site = host !== "" ? "Website: " + host : "";
+        if (prefix) {
+            var shown = text.length > 90 ? text.slice(0, 90) + "..." : text;
+            site = prefix + shown;
+        }
+
+        if (link === "" && reasons.length === 0) {
+            showResult("No link found", "warn", prefix ? site : "", ["Paste a full link, like https://example.com, to check it."]);
+        } else if (reasons.length === 0) {
+            showResult("Looks safe", "safe", site, ["We did not find common warning signs."]);
+        } else if (reasons.length === 1) {
+            showResult("Be careful", "warn", site, reasons);
+        } else {
+            showResult("Dangerous: do not open", "danger", site, reasons);
+        }
+    }
+
+    document.getElementById("url-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        analyze(urlInput.value, "");
+    });
+
+
+    function readQR(file, done) {
+        var reader = new FileReader();
+
+        reader.onload = function () {
+            var image = new Image();
+
+            image.onload = function () {
+                var scale = Math.min(1, 1000 / Math.max(image.width, image.height));
+                var canvas = document.createElement("canvas");
+                canvas.width = Math.round(image.width * scale);
+                canvas.height = Math.round(image.height * scale);
+
+                var context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+                var code = jsQR(pixels.data, canvas.width, canvas.height);
+                done(code ? code.data : null);
+            };
+
+            image.onerror = function () {
+                done(null);
+            };
+
+            image.src = reader.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    document.getElementById("qr-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var file = qrFile.files[0];
+
+        if (!file) {
+            showResult("No image chosen", "warn", "", ["Please choose a QR code image first."]);
+            return;
+        }
+
+        if (typeof jsQR === "undefined") {
+            showResult("QR reader not loaded", "warn", "", [
+                "Check your internet connection and reload the page.",
+                "You can also scan the code with your phone camera and paste the address in the link box."
+            ]);
+            return;
+        }
+
+        readQR(file, function (text) {
+            if (text === null) {
+                showResult("QR code not found", "warn", "", [
+                    "We could not read a QR code in this image.",
+                    "Try a clearer picture where the whole code is visible."
+                ]);
+            } else {
+                analyze(text, "QR code says: ");
+            }
+        });
+    });
+}

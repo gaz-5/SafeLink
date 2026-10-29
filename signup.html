@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create a free SafeLink account.">
+    <title>SafeLink - Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Google+Sans+Flex:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <header id="top">
+            <img src="logo.svg" width="64" height="64" alt="SafeLink logo" usemap="#logomap">
+            <map name="logomap">
+                <area shape="circle" coords="32,32,30" href="index.html" alt="Go to the home page">
+            </map>
+            <div class="brand">
+                <h1>SafeLink</h1>
+                <p class="tagline"><strong>URL and QR Code Safety Checker</strong></p>
+            </div>
+            <div class="header-actions">
+
+                <button type="button" id="theme-toggle" class="header-btn">Light mode</button>
+            </div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html" class="current">Account</a>
+                    <ul>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="signup.html">Sign Up</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <main>
+            <section class="card form-card">
+                <h2>Create an account</h2>
+                <p>It is free and only takes a minute.</p>
+
+                <form action="#" method="post" onsubmit="return signupUser()">
+                    <label for="full-name">Full name:</label>
+                    <input type="text" id="full-name" name="full-name" class="field"
+                           placeholder="Your name" autocomplete="on" autofocus required>
+
+                    <label for="email">Email address:</label>
+                    <input type="email" id="email" name="email" class="field"
+                           placeholder="name@domain.com" autocomplete="on" required>
+
+                    <label for="use">I will use SafeLink for:</label>
+                    <select id="use" name="use" class="field">
+                        <option value="personal">Personal use</option>
+                        <option value="study">Study</option>
+                        <option value="work">Work</option>
+                    </select>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="field"
+                           placeholder="At least 8 characters" autocomplete="off" required>
+                    <p class="hint">Use at least 8 characters.</p>
+
+                    <label for="confirm-password">Confirm password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="field"
+                           placeholder="Type the password again" autocomplete="off" required>
+
+                    <label class="check-label">
+                        <input type="checkbox" id="show-password" onclick="togglePasswords()">
+                        Show passwords
+                    </label>
+
+                    <label class="check-label">
+                        <input type="checkbox" id="agree" name="agree" required>
+                        I agree to use SafeLink responsibly.
+                    </label>
+
+                    <input type="submit" value="Sign up" class="btn">
+                    <input type="reset" value="Clear" class="btn btn-reset">
+
+                    <p id="signup-message" class="form-message"></p>
+                </form>
+
+                <p class="center">Already have an account? <a href="login.html">Log in here</a></p>
+            </section>
+        </main>
+
+        <footer>
+            <p><a href="login.html">Login</a> | <a href="signup.html">Sign Up</a> | <a href="#top">Back to top</a></p>
+            <p>&copy; 2026 SafeLink Project | <a href="https://github.com/gaz-5/SafeLink">GitHub</a></p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function togglePasswords() {
+            var type = document.getElementById("show-password").checked ? "text" : "password";
+            document.getElementById("password").type = type;
+            document.getElementById("confirm-password").type = type;
+        }
+
+        function signupUser() {
+            var password = document.getElementById("password").value;
+            var confirm = document.getElementById("confirm-password").value;
+            var message = document.getElementById("signup-message");
+
+            if (password.length < 8) {
+                message.className = "form-message error";
+                message.textContent = "The password must have at least 8 characters.";
+            } else if (password !== confirm) {
+                message.className = "form-message error";
+                message.textContent = "The two passwords are not the same. Please try again.";
+            } else {
+                message.className = "form-message ok";
+                message.textContent = "Account created! Going to the login page...";
+                setTimeout(function () {
+                    window.location.href = "login.html";
+                }, 1200);
+            }
+
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,163 +1,267 @@
-/* website colors */
 :root {
     color-scheme: dark;
     --primary-color: #2563eb;
+    --primary-dark: #1e40af;
     --title-color: #93c5fd;
     --text-color: #e2e8f0;
+    --muted-color: #94a3b8;
     --background-color: #0f172a;
     --card-background: #1e293b;
     --border-color: #334155;
+    --safe-color: #16a34a;
+    --warn-color: #f59e0b;
+    --danger-color: #dc2626;
+    --error-text: #f87171;
+    --ok-text: #4ade80;
 }
 
-/* light mode colors, used when the switch adds the "light" class */
 body.light {
     color-scheme: light;
     --title-color: #0a1d88;
     --text-color: #1e293b;
+    --muted-color: #475569;
     --background-color: #f1f5f9;
     --card-background: #ffffff;
     --border-color: #cbd5e1;
+    --error-text: #dc2626;
+    --ok-text: #15803d;
 }
 
-/* font and colors */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: "Google Sans Flex", system-ui, sans-serif;
-    line-height: 1.5;
+    margin: 0;
+    font-family: "Google Sans Flex", system-ui, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
-    margin: 0;
 }
 
-/* keep boxes on the center */
 .container {
-    max-width: 800px;
+    max-width: 820px;
     margin: 0 auto;
     padding: 2rem 1rem;
 }
 
-/* header with line */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+h1, h2, h3 {
+    line-height: 1.25;
     color: var(--title-color);
-    border-bottom: 3px solid var(--primary-color);
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
 }
 
-/* main title */
+h2 {
+    margin-top: 0;
+}
+
+a {
+    color: var(--title-color);
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--warn-color);
+    outline-offset: 2px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.note,
+.hint {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.brand {
+    flex: 1;
+    min-width: 0;
+}
+
 h1 {
     margin: 0;
     font-size: 2.2rem;
 }
 
-/* text under the title */
 .tagline {
-    margin: 0.25rem 0 0 0;
+    margin: 0;
 }
 
-/* boxes around each section */
-.card {
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
     background-color: var(--card-background);
     border: 2px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-/* form labels */
-label {
-    display: block;
-    font-weight: bold;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-}
-
-/* inputs and button fonts */
-input,
-button {
-    font-family: inherit;
-}
-
-/* the URL box uses fira mono font */
-#url-input {
-    font-family: "Fira Mono", monospace;
-}
-
-/* text and file input boxes */
-input[type="text"],
-input[type="file"] {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.1rem;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-}
-
-/* box outline when selected */
-input:focus,
-button:focus {
-    outline: 3px solid #f59e0b;
-    outline-offset: 2px;
-}
-
-/* buttons */
-button {
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-    padding: 0.8rem 1.5rem;
-    border: none;
     border-radius: 6px;
     cursor: pointer;
 }
 
-/* button color on mouse hover */
-button:hover {
-    background-color: #1e40af;
+.header-btn:hover {
+    border-color: var(--primary-color);
 }
 
-/* smaller button for the dark/light mode switch */
-#theme-toggle {
-    font-size: 0.9rem;
+.icon-btn {
+    padding: 0.4rem;
+    border-radius: 50%;
+}
+
+
+nav {
+    margin: 1rem 0 1.5rem;
+    padding: 0.35rem;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+}
+
+nav ul {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    position: relative;
+}
+
+nav a {
+    display: block;
     padding: 0.5rem 1rem;
-}
-
-/* bottom of the page */
-footer {
-    margin-top: 3rem;
-    font-size: 0.9rem;
-    text-align: center;
-    color: #94a3b8;
-}
-
-/* darker footer text so it's readable in light mode */
-body.light footer {
-    color: #475569;
-}
-
-/* github link in the footer */
-footer a {
-    color: var(--title-color);
+    color: var(--text-color);
     text-decoration: none;
+    border-radius: 6px;
 }
 
-/* underline the link when the mouse is over it */
-footer a:hover {
-    text-decoration: underline;
+nav a:hover,
+nav a.current {
+    color: #ffffff;
+    background-color: var(--primary-color);
+}
+
+nav ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    flex-direction: column;
+    gap: 0;
+    min-width: 160px;
+    margin-top: 0.35rem;
+    padding: 0.25rem;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+}
+
+nav li:hover > ul,
+nav li:focus-within > ul {
+    display: flex;
 }
 
 
-/* ---------- icons ---------- */
+.ticker {
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    padding: 0.6rem 0;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker-track span {
+    padding-right: 3rem;
+    white-space: nowrap;
+}
+
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+    animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+
+.card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+aside {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-color);
+    background-color: var(--card-background);
+    border-left: 6px solid var(--warn-color);
+    border-radius: 6px;
+}
+
+.inline-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.inline-list li {
+    display: inline;
+    margin-right: 1.25rem;
+}
+
+
 .icon {
+    flex-shrink: 0;
     width: 1.3em;
     height: 1.3em;
-    flex-shrink: 0;
 }
 
 .icon-lg {
@@ -170,76 +274,91 @@ footer a:hover {
     height: 3.5rem;
 }
 
-/* header buttons sit side by side */
-.header-actions {
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.check-label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    font-weight: normal;
 }
 
-/* round icon-only button */
-.icon-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.45rem;
-    border-radius: 50%;
-}
-
-/* button with an icon beside the text */
-.btn-with-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-/* card heading with an icon beside it */
-.card-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0;
-    color: var(--title-color);
-}
-
-
-/* ---------- moving text (ticker) ---------- */
-.ticker {
-    overflow: hidden;
-    background-color: var(--card-background);
+.field {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    font-family: inherit;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    background-color: var(--background-color);
     border: 2px solid var(--border-color);
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    padding: 0.6rem 0;
+    border-radius: 6px;
 }
 
-.ticker-track {
-    display: flex;
-    width: max-content;
-    animation: ticker-scroll 40s linear infinite;
+.field:focus {
+    border-color: var(--warn-color);
 }
 
-.ticker-track span {
-    white-space: nowrap;
-    padding-right: 3rem;
+#url-input {
+    font-family: "Fira Mono", monospace;
 }
 
-/* pause when the user hovers or focuses, so it is easy to read */
-.ticker:hover .ticker-track,
-.ticker:focus-within .ticker-track {
-    animation-play-state: paused;
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-@keyframes ticker-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+.btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-reset {
+    background-color: #64748b;
+}
+
+.btn-reset:hover {
+    background-color: #475569;
+}
+
+.form-card {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-message {
+    font-weight: bold;
+}
+
+.error {
+    color: var(--error-text);
+}
+
+.ok {
+    color: var(--ok-text);
 }
 
 
-/* ---------- choose URL or QR ---------- */
 .choice-heading {
     text-align: center;
-    margin-top: 0;
 }
 
 .choice-grid {
@@ -248,79 +367,122 @@ footer a:hover {
     gap: 1rem;
 }
 
-/* the two big choice buttons */
 .choice-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.35rem;
     padding: 1.5rem 1rem;
-    background-color: var(--card-background);
+    font-family: inherit;
     color: var(--text-color);
+    background-color: var(--card-background);
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    transition: transform 0.15s, border-color 0.15s;
+    cursor: pointer;
 }
 
 .choice-btn .icon {
     color: var(--primary-color);
 }
 
-.choice-btn:hover {
-    background-color: var(--card-background);
-    border-color: var(--primary-color);
-    transform: translateY(-2px);
-}
-
-/* the chosen button */
+.choice-btn:hover,
 .choice-btn[aria-selected="true"] {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px var(--primary-color) inset;
+}
+
+.choice-btn[aria-selected="true"] {
+    box-shadow: 0 0 0 2px var(--primary-color) inset;
 }
 
 .choice-title {
     font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .choice-sub {
     font-size: 0.9rem;
-    font-weight: normal;
-    opacity: 0.8;
+    color: var(--muted-color);
 }
 
 .choice-hint {
+    margin: 1rem 0 1.5rem;
     text-align: center;
-    margin: 1rem 0 2rem;
-    opacity: 0.8;
-}
-
-/* make sure hidden sections stay hidden */
-[hidden] {
-    display: none !important;
+    color: var(--muted-color);
 }
 
 #panel-url,
 #panel-qr {
     margin-top: 1.5rem;
-    animation: fade-in 0.25s ease;
-}
-
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: none; }
 }
 
 
-/* ---------- welcome pop-up ---------- */
+.result {
+    border-left: 8px solid var(--border-color);
+}
+
+.result.safe {
+    border-left-color: var(--safe-color);
+}
+
+.result.warn {
+    border-left-color: var(--warn-color);
+}
+
+.result.danger {
+    border-left-color: var(--danger-color);
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+caption {
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 0.6rem;
+    text-align: left;
+    border: 2px solid var(--border-color);
+}
+
+thead th {
+    color: #ffffff;
+    background-color: var(--primary-color);
+}
+
+tfoot td {
+    font-style: italic;
+    background-color: var(--background-color);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+
+footer {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--muted-color);
+}
+
+
 dialog {
-    max-width: 480px;
     width: calc(100% - 2rem);
+    max-width: 500px;
     padding: 2rem;
-    background-color: var(--card-background);
+    text-align: center;
     color: var(--text-color);
+    background-color: var(--card-background);
     border: 2px solid var(--border-color);
     border-radius: 12px;
-    text-align: center;
 }
 
 dialog[open] {
@@ -328,85 +490,104 @@ dialog[open] {
 }
 
 dialog::backdrop {
-    background: rgba(15, 23, 42, 0.75);
+    background-color: rgba(15, 23, 42, 0.8);
 }
 
 @keyframes pop-in {
-    from { opacity: 0; transform: scale(0.92); }
-    to   { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: scale(0.94); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 dialog h2 {
     margin: 0.5rem 0;
-    color: var(--title-color);
 }
 
-.dialog-icon {
-    color: var(--primary-color);
-    display: flex;
-    justify-content: center;
-}
-
-/* list of the two features inside the pop-up */
-.steps {
-    list-style: none;
-    padding: 0;
+.dialog-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
     margin: 1.25rem 0;
+}
+
+.dialog-choices .choice-btn {
+    padding: 1rem 0.5rem;
+}
+
+.dialog-choices .icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.dialog-feature {
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
     text-align: left;
 }
 
-.steps li {
-    display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-    padding: 0.75rem;
+.dialog-feature li {
+    margin-bottom: 0.5rem;
+    padding: 0.6rem 0.75rem;
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    margin-bottom: 0.6rem;
 }
 
-.steps .icon {
-    color: var(--primary-color);
-    width: 1.8rem;
-    height: 1.8rem;
-}
-
-.remember {
-    display: flex;
-    align-items: center;
+dialog .check-label {
     justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.95rem;
-    font-weight: normal;
-}
-
-.dialog-actions {
-    margin-top: 1rem;
+    margin-bottom: 0;
 }
 
 
-/* ---------- small screens ---------- */
-@media (max-width: 520px) {
-    .choice-grid {
+@media (max-width: 560px) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    .choice-grid,
+    .dialog-choices {
         grid-template-columns: 1fr;
     }
 }
 
-/* respect users who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
     .ticker-track {
-        animation: none;
         flex-wrap: wrap;
         width: auto;
+        animation: none;
     }
 
     .ticker-track span[aria-hidden="true"] {
         display: none;
     }
 
-    dialog[open],
-    #panel-url,
-    #panel-qr {
+    dialog[open] {
         animation: none;
+    }
+}
+
+@media print {
+    body,
+    body.light {
+        color: #000000;
+        background-color: #ffffff;
+    }
+
+    nav,
+    .ticker,
+    .header-actions,
+    dialog {
+        display: none;
+    }
+
+    .card {
+        border-color: #999999;
+    }
+
+    h1, h2, h3, a {
+        color: #000000;
     }
 }
