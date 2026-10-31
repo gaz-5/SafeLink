@@ -4,96 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Log in to your SafeLink account.">
-    <title>SafeLink - Login</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Google+Sans+Flex:wght@400;700&display=swap" rel="stylesheet">
+    <title>SafeLink - Log in</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <div class="container">
 
-        <header id="top">
-            <img src="logo.svg" width="64" height="64" alt="SafeLink logo" usemap="#logomap">
-            <map name="logomap">
-                <area shape="circle" coords="32,32,30" href="index.html" alt="Go to the home page">
-            </map>
-            <div class="brand">
-                <h1>SafeLink</h1>
-                <p class="tagline"><strong>URL and QR Code Safety Checker</strong></p>
-            </div>
-            <div class="header-actions">
-
-                <button type="button" id="theme-toggle" class="header-btn">Light mode</button>
-            </div>
-        </header>
-
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html" class="current">Account</a>
-                    <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Sign Up</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-
-        <main>
-            <section class="card form-card">
-                <h2>Log in</h2>
-                <p>Welcome back! Enter your details to continue.</p>
-
-                <form action="#" method="post" onsubmit="return loginUser()">
-                    <label for="email">Email address:</label>
-                    <input type="email" id="email" name="email" class="field"
-                           placeholder="name@domain.com" autocomplete="on" autofocus required>
-
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" class="field"
-                           placeholder="Your password" autocomplete="off" required>
-
-                    <label class="check-label">
-                        <input type="checkbox" id="show-password" onclick="togglePassword()">
-                        Show password
-                    </label>
-
-                    <input type="submit" value="Log in" class="btn">
-                    <input type="reset" value="Clear" class="btn btn-reset">
-
-                    <p id="login-message" class="form-message"></p>
-                </form>
-
-                <p class="center">No account yet? <a href="signup.html">Sign up here</a></p>
-            </section>
-        </main>
-
-        <footer>
-            <p><a href="login.html">Login</a> | <a href="signup.html">Sign Up</a> | <a href="#top">Back to top</a></p>
-            <p>&copy; 2026 SafeLink Project | <a href="https://github.com/gaz-5/SafeLink">GitHub</a></p>
-        </footer>
-
+<header class="topbar" id="top">
+    <div class="brand">
+        <img src="logo.svg" width="40" height="40" alt="SafeLink logo" usemap="#logomap">
+        <map name="logomap">
+            <area shape="circle" coords="20,20,19" href="about.html" alt="About SafeLink">
+        </map>
+        <a href="index.html" class="brand-name">SafeLink</a>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        function togglePassword() {
-            var box = document.getElementById("show-password");
-            var field = document.getElementById("password");
-            field.type = box.checked ? "text" : "password";
-        }
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="index.html#how-it-works">Guide</a>
+                <ul>
+                    <li><a href="index.html#how-it-works">How it works</a></li>
+                    <li><a href="index.html#spot-fake">Spot a fake link</a></li>
+                    <li><a href="index.html#tips">Safety tip</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 
-        function loginUser() {
-            var message = document.getElementById("login-message");
-            message.className = "form-message ok";
-            message.textContent = "Login successful! Going to the home page...";
-            setTimeout(function () {
-                window.location.href = "index.html";
-            }, 1200);
-            return false;
+    <div class="top-right">
+        <input type="button" id="theme-toggle" value="Light mode" class="header-btn" onclick="toggleTheme()">
+        <a href="login.html" class="login-link">Log in</a>
+        <a href="signup.html" class="pill">Sign up</a>
+    </div>
+</header>
+
+<div class="page">
+
+    <section class="card form-card">
+        <h1>Log in</h1>
+        <p>Enter your email and password.</p>
+
+        <form action="#" method="post" onsubmit="return loginUser()">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" class="field"
+                   placeholder="name@domain.com" autocomplete="on" autofocus required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="field"
+                   placeholder="Your password" autocomplete="off" required>
+
+            <label class="check-label">
+                <input type="checkbox" id="show-password" onclick="togglePassword()">
+                Show password
+            </label>
+
+            <input type="submit" value="Log in" class="btn">
+            <input type="reset" value="Clear" class="btn btn-reset">
+
+            <p id="login-message" class="form-message"></p>
+        </form>
+
+        <p class="center">No account yet? <a href="signup.html">Sign up</a></p>
+    </section>
+
+</div>
+
+<footer>
+    <div class="foot-cols">
+        <div class="foot-col">
+            <h4>SafeLink</h4>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://github.com/gaz-5/SafeLink">GitHub</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="index.html#checker">Check a link</a></li>
+                <li><a href="index.html#checker">Check a message</a></li>
+                <li><a href="index.html#checker">Check a QR code</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Guide</h4>
+            <ul>
+                <li><a href="index.html#how-it-works">How it works</a></li>
+                <li><a href="index.html#spot-fake">Spot a fake link</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Account</h4>
+            <ul>
+                <li><a href="login.html">Log in</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+    </div>
+    <p class="copy">&copy; 2026 SafeLink Project</p>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+    function togglePassword() {
+        var box = document.getElementById("show-password");
+        var field = document.getElementById("password");
+
+        if (box.checked) {
+            field.type = "text";
+        } else {
+            field.type = "password";
         }
-    </script>
+    }
+
+    function loginUser() {
+        var message = document.getElementById("login-message");
+        message.className = "form-message ok";
+        message.textContent = "Logged in. Opening the home page.";
+
+        setTimeout(goHome, 1200);
+        return false;
+    }
+
+    function goHome() {
+        window.location.href = "index.html";
+    }
+</script>
+
 </body>
 </html>

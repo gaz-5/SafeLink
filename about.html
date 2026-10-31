@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About the SafeLink project and how it checks links.">
+    <title>SafeLink - About</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <style type="text/css">
+        .about-card {
+            border-top: 6px solid #4f7bff;
+        }
+
+        .about-card section {
+            margin-top: 28px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar" id="top">
+    <div class="brand">
+        <img src="logo.svg" width="40" height="40" alt="SafeLink logo" usemap="#logomap">
+        <map name="logomap">
+            <area shape="circle" coords="20,20,19" href="about.html" alt="About SafeLink">
+        </map>
+        <a href="index.html" class="brand-name">SafeLink</a>
+    </div>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="current">About</a></li>
+            <li><a href="index.html#how-it-works">Guide</a>
+                <ul>
+                    <li><a href="index.html#how-it-works">How it works</a></li>
+                    <li><a href="index.html#spot-fake">Spot a fake link</a></li>
+                    <li><a href="index.html#tips">Safety tip</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="top-right">
+        <input type="button" id="theme-toggle" value="Light mode" class="header-btn" onclick="toggleTheme()">
+        <a href="login.html" class="login-link">Log in</a>
+        <a href="signup.html" class="pill">Sign up</a>
+    </div>
+</header>
+
+<div class="page">
+
+    <article class="card about-card">
+        <h1>About SafeLink</h1>
+        <p>
+            SafeLink is a course project for CPIS-358 at King Abdulaziz University.
+            It is a small website that helps people avoid scam links.
+        </p>
+
+        <ul class="inline-list">
+            <li><a href="#problem">The problem</a></li>
+            <li><a href="#solution">Our solution</a></li>
+            <li><a href="#design">Design choices</a></li>
+            <li><a href="#checks">What we check</a></li>
+            <li><a href="#details">Project details</a></li>
+        </ul>
+
+        <section id="problem">
+            <h2>The problem</h2>
+            <p>
+                Scam messages are very common. A text that says "your parcel is waiting" or a
+                QR code stuck on a poster can lead to a fake website that steals your password.
+                It is hard to tell if a link is safe just by looking at it.
+            </p>
+        </section>
+
+        <section id="solution">
+            <h2>Our solution</h2>
+            <p>
+                SafeLink reads a link, a message or a QR code picture and gives one of three ratings:
+                safe, be careful, or dangerous. Each rating comes with the reasons behind it.
+            </p>
+        </section>
+
+        <section id="design">
+            <h2>Design choices</h2>
+            <ul>
+                <li>One task per tab: link, message or QR code.</li>
+                <li>Every box has a label that says what to type.</li>
+                <li>Ratings use color and words, so color alone is not the only signal.</li>
+                <li>Night mode and light mode, saved for the next visit.</li>
+                <li>The menu shows which page you are on.</li>
+                <li>Works with the keyboard and on a phone screen.</li>
+            </ul>
+        </section>
+
+        <section id="checks">
+            <h2>What we check</h2>
+            <table>
+                <caption>Warning signs and why they matter</caption>
+                <thead>
+                    <tr>
+                        <th>Warning sign</th>
+                        <th>Why it matters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>No HTTPS</th>
+                        <td>The connection is not protected.</td>
+                    </tr>
+                    <tr>
+                        <th>Short links</th>
+                        <td>The real website is hidden.</td>
+                    </tr>
+                    <tr>
+                        <th>Number addresses</th>
+                        <td>Real companies rarely use them.</td>
+                    </tr>
+                    <tr>
+                        <th>Pressure words</th>
+                        <td>Scammers want you to act without thinking.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <p style="margin-top: 24px;">
+            Ready to try it? <a href="index.html#checker">Go to the checker</a>.
+        </p>
+    </article>
+
+</div>
+
+<footer>
+    <div class="foot-cols">
+        <div class="foot-col">
+            <h4>SafeLink</h4>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://github.com/gaz-5/SafeLink">GitHub</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="index.html#checker">Check a link</a></li>
+                <li><a href="index.html#checker">Check a message</a></li>
+                <li><a href="index.html#checker">Check a QR code</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Guide</h4>
+            <ul>
+                <li><a href="index.html#how-it-works">How it works</a></li>
+                <li><a href="index.html#spot-fake">Spot a fake link</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Account</h4>
+            <ul>
+                <li><a href="login.html">Log in</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
+    </div>
+    <p class="copy">&copy; 2026 SafeLink Project</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

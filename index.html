@@ -3,279 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SafeLink is a simple URL and QR code safety checker.">
-    <meta name="keywords" content="link checker, scam, QR code, safety">
+    <meta name="description" content="SafeLink checks links, messages and QR codes for scams.">
+    <meta name="keywords" content="link checker, scam, QR code, phishing">
     <title>SafeLink - Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Google+Sans+Flex:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
+
     <style type="text/css">
-        .intro {
-            border-left: 8px solid #2563eb;
+        .hero-logo {
+            margin-bottom: 6px;
+        }
+
+        .feature {
+            display: inline-block;
+            vertical-align: top;
+            box-sizing: border-box;
+            width: 31%;
+            margin: 0px 1% 20px 1%;
+            padding: 18px;
+            border: 1px solid #2d3250;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .features {
+            margin-left: -1%;
+            margin-right: -1%;
+        }
+
+        .feature h3 {
+            margin: 0px 0px 6px 0px;
+        }
+
+        .feature p {
+            margin: 0px;
+            font-size: 14px;
+        }
+
+        .light .feature {
+            border-color: #cbd5e1;
+        }
+
+        @media screen and (max-width: 700px) {
+            .feature {
+                width: 98%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-        <symbol id="icon-link" viewBox="0 0 24 24">
-            <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="icon-qr" viewBox="0 0 24 24">
-            <g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
-                <rect x="3" y="3" width="7" height="7" rx="1"/>
-                <rect x="14" y="3" width="7" height="7" rx="1"/>
-                <rect x="3" y="14" width="7" height="7" rx="1"/>
-            </g>
-            <g fill="currentColor">
-                <rect x="5.5" y="5.5" width="2" height="2"/>
-                <rect x="16.5" y="5.5" width="2" height="2"/>
-                <rect x="5.5" y="16.5" width="2" height="2"/>
-                <rect x="14" y="14" width="3" height="3"/>
-                <rect x="18" y="18" width="3" height="3"/>
-                <rect x="18" y="14" width="3" height="2"/>
-                <rect x="14" y="18" width="2" height="3"/>
-            </g>
-        </symbol>
-        <symbol id="icon-shield" viewBox="0 0 24 24">
-            <path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M8.5 12l2.5 2.5L16 9.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </symbol>
-        <symbol id="icon-help" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="12" cy="17" r="1.2" fill="currentColor"/>
-        </symbol>
-    </svg>
-
-    <dialog id="welcome-dialog" aria-labelledby="welcome-title" aria-describedby="welcome-desc">
+<dialog id="welcome-dialog">
+    <div class="dialog-body">
         <img src="logo.svg" width="64" height="64" alt="SafeLink logo">
-        <h2 id="welcome-title">Welcome to SafeLink</h2>
-        <p id="welcome-desc">
-            SafeLink is a free tool that checks a link, a text message or a QR code
-            and tells you if it is safe to open. Scams often arrive as messages, emails
-            or QR codes on posters, and the checker shows you the warning signs.
+        <h2>Welcome to SafeLink</h2>
+        <p>
+            SafeLink checks a link, a message or a QR code and tells you
+            if it looks safe before you open it.
+        </p>
+        <p>
+            Fake texts and QR codes lead to websites that steal passwords and
+            bank details. Pick what you want to check:
         </p>
 
-        <h3>What do you want to check?</h3>
-        <div class="dialog-choices">
-            <button type="button" class="choice-btn" data-choice="url">
-                <svg class="icon"><use href="#icon-link"/></svg>
-                <span class="choice-title">Link or message</span>
-            </button>
-            <button type="button" class="choice-btn" data-choice="qr">
-                <svg class="icon"><use href="#icon-qr"/></svg>
-                <span class="choice-title">QR code</span>
-            </button>
-        </div>
+        <input type="button" value="Check a link" class="btn dialog-btn" onclick="chooseFromPopup('url')">
+        <input type="button" value="Check a QR code" class="btn dialog-btn" onclick="chooseFromPopup('qr')">
 
         <label class="check-label">
             <input type="checkbox" id="dont-show-again">
             Don't show this again
         </label>
-    </dialog>
+        <input type="button" value="Close" class="btn btn-reset" onclick="closeWelcome()">
+    </div>
+</dialog>
 
-    <div class="container">
+<header class="topbar" id="top">
+    <div class="brand">
+        <img src="logo.svg" width="40" height="40" alt="SafeLink logo" usemap="#logomap">
+        <map name="logomap">
+            <area shape="circle" coords="20,20,19" href="about.html" alt="About SafeLink">
+        </map>
+        <a href="index.html" class="brand-name">SafeLink</a>
+    </div>
 
-        <header id="top">
-            <img src="logo.svg" width="64" height="64" alt="SafeLink logo" usemap="#logomap">
-            <map name="logomap">
-                <area shape="circle" coords="32,32,30" href="index.html" alt="Go to the home page">
-            </map>
-            <div class="brand">
-                <h1>SafeLink</h1>
-                <p class="tagline"><strong>URL and QR Code Safety Checker</strong></p>
-            </div>
-            <div class="header-actions">
-                <button type="button" id="help-btn" class="header-btn icon-btn" aria-label="Show help" title="Show help">
-                    <svg class="icon"><use href="#icon-help"/></svg>
-                </button>
-                <button type="button" id="theme-toggle" class="header-btn">Light mode</button>
-            </div>
-        </header>
-
-        <nav>
-            <ul>
-                <li><a href="index.html" class="current">Home</a></li>
-                <li><a href="login.html">Account</a>
-                    <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="signup.html">Sign Up</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="ticker" role="region" aria-label="Tips about SafeLink">
-            <div class="ticker-track">
-                <span>SafeLink checks links and QR codes for scams</span>
-                <span>Got a suspicious SMS? Paste the whole message</span>
-                <span>Upload a QR code image to see where it goes</span>
-                <span>Never enter passwords on a site you are unsure about</span>
-                <span aria-hidden="true">SafeLink checks links and QR codes for scams</span>
-                <span aria-hidden="true">Got a suspicious SMS? Paste the whole message</span>
-                <span aria-hidden="true">Upload a QR code image to see where it goes</span>
-                <span aria-hidden="true">Never enter passwords on a site you are unsure about</span>
-            </div>
-        </div>
-
-        <main>
-
-            <article class="card intro">
-                <h2>Check a link before you click it</h2>
-                <p>
-                    Fake links in text messages, emails and QR codes are an easy way to steal
-                    passwords and bank details. SafeLink looks at the link for you and tells you
-                    if it is safe, risky or dangerous, with the reasons in simple words.
-                </p>
-
-                <h3>Why use SafeLink?</h3>
+    <nav class="main-nav">
+        <ul>
+            <li><a href="index.html" class="current">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="#how-it-works">Guide</a>
                 <ul>
-                    <li>Free, with nothing to install.</li>
-                    <li>Works with web addresses, full text messages and QR code images.</li>
-                    <li>Explains each warning, so you learn what to look for.</li>
-                </ul>
-
-                <p style="font-weight: bold; margin-bottom: 5px;">On this page:</p>
-                <ul class="inline-list">
-                    <li><a href="#checker">Check something</a></li>
                     <li><a href="#how-it-works">How it works</a></li>
                     <li><a href="#spot-fake">Spot a fake link</a></li>
+                    <li><a href="#tips">Safety tip</a></li>
                 </ul>
-            </article>
+            </li>
+        </ul>
+    </nav>
 
-            <aside>
-                <strong>Tip:</strong> never type a password on a website you opened from a message.
-            </aside>
+    <div class="top-right">
+        <input type="button" value="?" title="Show the welcome window" class="header-btn" onclick="openWelcome()">
+        <input type="button" id="theme-toggle" value="Light mode" class="header-btn" onclick="toggleTheme()">
+        <a href="login.html" class="login-link">Log in</a>
+        <a href="signup.html" class="pill">Sign up</a>
+    </div>
+</header>
 
-            <section id="checker" aria-labelledby="choice-heading">
-                <h2 id="choice-heading" class="choice-heading">What would you like to check?</h2>
+<div class="page">
 
-                <div class="choice-grid" role="tablist" aria-label="Choose a check type">
-                    <button type="button" class="choice-btn" role="tab" id="tab-url"
-                            aria-selected="false" aria-controls="panel-url" tabindex="0">
-                        <svg class="icon icon-lg"><use href="#icon-link"/></svg>
-                        <span class="choice-title">Link or message</span>
-                        <span class="choice-sub">Paste a link or SMS text</span>
-                    </button>
+    <section class="hero" id="checker">
+        <img src="logo.svg" class="hero-logo" width="96" height="96" alt="SafeLink shield">
+        <h1>Check a link before you open it</h1>
+        <p class="hero-text">
+            Paste a link or a message, or upload a QR code picture.
+            SafeLink tells you if it looks safe and shows why.
+        </p>
 
-                    <button type="button" class="choice-btn" role="tab" id="tab-qr"
-                            aria-selected="false" aria-controls="panel-qr" tabindex="-1">
-                        <svg class="icon icon-lg"><use href="#icon-qr"/></svg>
-                        <span class="choice-title">QR code</span>
-                        <span class="choice-sub">Upload a QR code image</span>
-                    </button>
-                </div>
+        <div class="search-box">
+            <div class="tabs">
+                <input type="button" id="tab-url" value="LINK" class="tab tab-on" onclick="chooseCheck('url')">
+                <input type="button" id="tab-msg" value="MESSAGE" class="tab" onclick="chooseCheck('msg')">
+                <input type="button" id="tab-qr" value="QR CODE" class="tab" onclick="chooseCheck('qr')">
+            </div>
 
-                <p id="choice-hint" class="choice-hint">Select an option above to begin.</p>
-            </section>
-
-            <section class="card" id="panel-url" role="tabpanel" aria-labelledby="tab-url" hidden>
-                <h2 class="card-title">
-                    <svg class="icon"><use href="#icon-link"/></svg>
-                    Check a link or message
-                </h2>
-
-                <form id="url-form" action="#" method="get">
-                    <label for="url-input">Paste a web address or a full text message:</label>
+            <div id="panel-url" class="panel on">
+                <form action="#" method="get" onsubmit="return checkLink()">
+                    <label for="url-input">Web address</label>
                     <input type="text" id="url-input" name="url" class="field"
-                           placeholder="e.g. https://example.com" autocomplete="off" required>
-
-                    <input type="submit" value="Check safety" class="btn">
-                    <input type="reset" value="Clear" class="btn btn-reset">
+                           placeholder="https://example.com" autocomplete="off" required>
+                    <div class="center">
+                        <input type="submit" value="Check link" class="btn">
+                        <input type="reset" value="Clear" class="btn btn-reset">
+                    </div>
                 </form>
-            </section>
+            </div>
 
-            <section class="card" id="panel-qr" role="tabpanel" aria-labelledby="tab-qr" hidden>
-                <h2 class="card-title">
-                    <svg class="icon"><use href="#icon-qr"/></svg>
-                    Check a QR code
-                </h2>
+            <div id="panel-msg" class="panel">
+                <form action="#" method="get" onsubmit="return checkMessage()">
+                    <label for="msg-input">Text message or email</label>
+                    <textarea id="msg-input" name="message" class="field" rows="5" cols="40"
+                              placeholder="Paste the whole message here" required></textarea>
+                    <div class="center">
+                        <input type="submit" value="Check message" class="btn">
+                        <input type="reset" value="Clear" class="btn btn-reset">
+                    </div>
+                </form>
+            </div>
 
-                <form id="qr-form" action="#" method="post" enctype="multipart/form-data">
-                    <label for="qr-file">Choose a QR code image from your device:</label>
+            <div id="panel-qr" class="panel">
+                <form action="#" method="post" enctype="multipart/form-data" onsubmit="return checkQR()">
+                    <label for="qr-file">QR code picture</label>
                     <input type="file" id="qr-file" name="qr-image" class="field" accept="image/*">
-
-                    <input type="submit" value="Check QR code" class="btn">
-                    <input type="reset" value="Clear" class="btn btn-reset">
+                    <div class="center">
+                        <input type="submit" value="Check QR code" class="btn">
+                    </div>
                 </form>
-            </section>
+            </div>
 
-            <section class="card result" id="result" aria-live="polite" hidden>
+            <section class="card result" id="result">
                 <h2 id="result-title"></h2>
                 <p id="result-site"></p>
                 <ul id="result-list"></ul>
-                <p class="note">No tool is 100% accurate. If you are unsure, do not enter any passwords.</p>
+                <p class="note">No tool is 100% accurate. If you are unsure, don't enter any passwords.</p>
             </section>
+        </div>
 
-            <section class="card" id="how-it-works">
-                <h2>How it works</h2>
-                <ol>
-                    <li>Choose link or message, or QR code.</li>
-                    <li>Paste the text or upload the image.</li>
-                    <li>Press the check button.</li>
-                    <li>Read the rating and the reasons. Open the link only if it looks safe.</li>
-                </ol>
-            </section>
+        <p class="fine">Don't paste personal information. A rating is a guide, not a guarantee.</p>
 
-            <section class="card" id="spot-fake">
-                <h2>Spot a fake link</h2>
-                <p>These are the signs we look for. You can look for them yourself too.</p>
+        <p class="infobar">
+            Want to know what we look for? Read <a href="#how-it-works">how it works</a>
+            or the <a href="about.html">about page</a>.
+        </p>
+    </section>
 
-                <div class="table-wrap">
-                    <table>
-                        <caption>Safe links compared with suspicious links</caption>
-                        <thead>
-                            <tr>
-                                <th>Sign</th>
-                                <th>Usually safe</th>
-                                <th>Suspicious</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Start of the link</th>
-                                <td>https://</td>
-                                <td>http:// (no lock)</td>
-                            </tr>
-                            <tr>
-                                <th>Website name</th>
-                                <td>shop.example.com</td>
-                                <td>192.168.4.20</td>
-                            </tr>
-                            <tr>
-                                <th>Short links</th>
-                                <td>Full address is visible</td>
-                                <td>bit.ly/xyz (address is hidden)</td>
-                            </tr>
-                            <tr>
-                                <th>Message tone</th>
-                                <td>Calm and clear</td>
-                                <td>"Urgent! Verify now"</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3">When in doubt, don't click.</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </section>
+    <section class="features">
+        <div class="feature">
+            <h3>Quick</h3>
+            <p>Get a rating with one click.</p>
+        </div>
+        <div class="feature">
+            <h3>Clear</h3>
+            <p>Every rating comes with reasons.</p>
+        </div>
+        <div class="feature">
+            <h3>Free</h3>
+            <p>Nothing to pay or install.</p>
+        </div>
+    </section>
 
-        </main>
+    <section class="card" id="how-it-works">
+        <h2>How it works</h2>
+        <ol>
+            <li>Choose <strong>Link</strong>, <strong>Message</strong> or <strong>QR code</strong>.</li>
+            <li>Paste the text or upload the picture.</li>
+            <li>Press the check button and read the rating.</li>
+            <li>Open the link only if the rating says it is safe.</li>
+        </ol>
+    </section>
 
-        <footer>
-            <p><a href="login.html">Login</a> | <a href="signup.html">Sign Up</a> | <a href="#top">Back to top</a></p>
-            <p>&copy; 2026 SafeLink Project | <a href="https://github.com/gaz-5/SafeLink">GitHub</a></p>
-        </footer>
+    <section class="card" id="spot-fake">
+        <h2>Spot a fake link</h2>
+        <p>These are the signs we look for. You can look for them yourself too.</p>
 
+        <table>
+            <caption>Safe links compared with suspicious links</caption>
+            <thead>
+                <tr>
+                    <th>Sign</th>
+                    <th>Usually safe</th>
+                    <th>Suspicious</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Start of the link</th>
+                    <td>https://</td>
+                    <td>http:// (no lock)</td>
+                </tr>
+                <tr>
+                    <th>Website name</th>
+                    <td>shop.example.com</td>
+                    <td>192.168.4.20</td>
+                </tr>
+                <tr>
+                    <th>Short links</th>
+                    <td>Full address is visible</td>
+                    <td>bit.ly/xyz (address is hidden)</td>
+                </tr>
+                <tr>
+                    <th>Message tone</th>
+                    <td>Calm and clear</td>
+                    <td>"Urgent! Verify now"</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">When in doubt, don't click.</td>
+                </tr>
+            </tfoot>
+        </table>
+    </section>
+
+    <aside id="tips">
+        <strong>Tip:</strong> never type a password on a website you opened from a message.
+        <a href="#top" style="margin-left: 10px;">Back to top</a>
+    </aside>
+
+</div>
+
+<footer>
+    <div class="foot-cols">
+        <div class="foot-col">
+            <h4>SafeLink</h4>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="https://github.com/gaz-5/SafeLink">GitHub</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Tools</h4>
+            <ul>
+                <li><a href="#checker">Check a link</a></li>
+                <li><a href="#checker">Check a message</a></li>
+                <li><a href="#checker">Check a QR code</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Guide</h4>
+            <ul>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#spot-fake">Spot a fake link</a></li>
+            </ul>
+        </div>
+        <div class="foot-col">
+            <h4>Account</h4>
+            <ul>
+                <li><a href="login.html">Log in</a></li>
+                <li><a href="signup.html">Sign up</a></li>
+            </ul>
+        </div>
     </div>
+    <p class="copy">&copy; 2026 SafeLink Project</p>
+</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-    <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>

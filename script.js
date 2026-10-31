@@ -1,19 +1,12 @@
-var themeButton = document.getElementById("theme-toggle");
+var shorteners = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "cutt.ly", "is.gd", "rb.gy"];
+var scamWords = ["urgent", "verify", "suspended", "winner", "prize", "free gift", "password", "click here", "bank account"];
 
-function updateThemeButton() {
-    if (document.body.classList.contains("light")) {
-        themeButton.textContent = "Night mode";
-    } else {
-        themeButton.textContent = "Light mode";
-    }
-}
-
-if (localStorage.getItem("theme") === "light") {
+if (localStorage.getItem("theme") == "light") {
     document.body.classList.add("light");
 }
 updateThemeButton();
 
-themeButton.addEventListener("click", function () {
+function toggleTheme() {
     document.body.classList.toggle("light");
 
     if (document.body.classList.contains("light")) {
@@ -23,253 +16,196 @@ themeButton.addEventListener("click", function () {
     }
 
     updateThemeButton();
-});
+}
+
+function updateThemeButton() {
+    var button = document.getElementById("theme-toggle");
+
+    if (document.body.classList.contains("light")) {
+        button.value = "Night mode";
+    } else {
+        button.value = "Light mode";
+    }
+}
 
 
 var welcome = document.getElementById("welcome-dialog");
 
-if (welcome !== null) {
-    var dontShow = document.getElementById("dont-show-again");
-    var helpButton = document.getElementById("help-btn");
-    var tabUrl = document.getElementById("tab-url");
-    var tabQr = document.getElementById("tab-qr");
-    var tabs = [tabUrl, tabQr];
-    var choiceHint = document.getElementById("choice-hint");
-    var urlInput = document.getElementById("url-input");
-    var qrFile = document.getElementById("qr-file");
-    var resultBox = document.getElementById("result");
-
-    function saveWelcomeChoice() {
-        if (dontShow.checked) {
-            localStorage.setItem("hideWelcome", "yes");
-        } else {
-            localStorage.removeItem("hideWelcome");
-        }
-    }
-
-    function openWelcome() {
-        dontShow.checked = localStorage.getItem("hideWelcome") === "yes";
+if (welcome != null) {
+    if (localStorage.getItem("hideWelcome") != "yes") {
         welcome.showModal();
     }
 
-    function selectTab(name, moveFocus) {
-        var selected = name === "qr" ? tabQr : tabUrl;
+    welcome.onclick = function (event) {
+        if (event.target == welcome) {
+            closeWelcome();
+        }
+    };
+}
 
-        tabs.forEach(function (tab) {
-            var isSelected = tab === selected;
-            document.getElementById(tab.getAttribute("aria-controls")).hidden = !isSelected;
-            tab.setAttribute("aria-selected", isSelected);
-            tab.setAttribute("tabindex", isSelected ? "0" : "-1");
-        });
+function openWelcome() {
+    var box = document.getElementById("dont-show-again");
+    box.checked = (localStorage.getItem("hideWelcome") == "yes");
+    welcome.showModal();
+}
 
-        choiceHint.hidden = true;
-        resultBox.hidden = true;
+function closeWelcome() {
+    var box = document.getElementById("dont-show-again");
 
-        if (moveFocus) {
-            selected.focus();
-        } else if (name === "qr") {
-            qrFile.focus();
+    if (box.checked) {
+        localStorage.setItem("hideWelcome", "yes");
+    } else {
+        localStorage.removeItem("hideWelcome");
+    }
+
+    welcome.close();
+}
+
+function chooseFromPopup(which) {
+    closeWelcome();
+    chooseCheck(which);
+}
+
+
+function chooseCheck(which) {
+    var names = ["url", "msg", "qr"];
+    var fields = {url: "url-input", msg: "msg-input", qr: "qr-file"};
+
+    for (var i = 0; i < names.length; i++) {
+        var tab = document.getElementById("tab-" + names[i]);
+        var panel = document.getElementById("panel-" + names[i]);
+
+        if (names[i] == which) {
+            tab.className = "tab tab-on";
+            panel.className = "panel on";
         } else {
-            urlInput.focus();
+            tab.className = "tab";
+            panel.className = "panel";
         }
     }
 
-    if (localStorage.getItem("hideWelcome") !== "yes") {
-        welcome.showModal();
+    document.getElementById("result").style.display = "none";
+    document.getElementById(fields[which]).focus();
+}
+
+
+function showResult(title, level, site, reasons) {
+    var box = document.getElementById("result");
+    var list = document.getElementById("result-list");
+
+    document.getElementById("result-title").textContent = title;
+    document.getElementById("result-site").textContent = site;
+
+    list.innerHTML = "";
+    for (var i = 0; i < reasons.length; i++) {
+        list.innerHTML = list.innerHTML + "<li>" + reasons[i] + "</li>";
     }
 
-    helpButton.addEventListener("click", openWelcome);
+    box.className = "card result " + level;
+    box.style.display = "block";
+    box.scrollIntoView();
+}
 
-    document.querySelectorAll("[data-choice]").forEach(function (button) {
-        button.addEventListener("click", function () {
-            saveWelcomeChoice();
-            welcome.close();
-            selectTab(button.getAttribute("data-choice"), false);
-        });
-    });
+function analyze(text) {
+    var clean = text.split("\n").join(" ");
+    var lowerText = clean.toLowerCase();
+    var reasons = [];
+    var link = "";
+    var host = "";
 
-    welcome.addEventListener("click", function (event) {
-        if (event.target === welcome) {
-            saveWelcomeChoice();
-            welcome.close();
-        }
-    });
-
-    tabs.forEach(function (tab, index) {
-        tab.addEventListener("click", function () {
-            selectTab(tab === tabQr ? "qr" : "url", false);
-        });
-
-        tab.addEventListener("keydown", function (event) {
-            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-                var next = tabs[(index + 1) % tabs.length];
-                selectTab(next === tabQr ? "qr" : "url", true);
-                event.preventDefault();
-            }
-        });
-    });
-
-
-    var shorteners = ["bit.ly", "tinyurl.com", "t.co", "goo.gl", "cutt.ly", "is.gd", "rb.gy"];
-    var scamWords = ["urgent", "verify", "suspended", "winner", "prize", "free gift", "password", "click here", "bank account"];
-
-    function showResult(title, level, site, reasons) {
-        var list = document.getElementById("result-list");
-
-        document.getElementById("result-title").textContent = title;
-        document.getElementById("result-site").textContent = site;
-
-        list.innerHTML = "";
-        reasons.forEach(function (reason) {
-            var item = document.createElement("li");
-            item.textContent = reason;
-            list.appendChild(item);
-        });
-
-        resultBox.className = "card result " + level;
-        resultBox.hidden = false;
-        resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-
-    function analyze(text, prefix) {
-        var lowerText = text.toLowerCase();
-        var reasons = [];
-        var link = "";
-        var host = "";
-        var words = text.split(/\s+/);
-
-        for (var i = 0; i < words.length; i++) {
-            var word = words[i].toLowerCase();
-            if (word.indexOf("http://") === 0 || word.indexOf("https://") === 0 || word.indexOf("www.") === 0) {
-                link = words[i];
-                break;
-            }
-        }
-
-        if (link !== "") {
-            var lowerLink = link.toLowerCase();
-            var rest = lowerLink;
-
-            if (rest.indexOf("://") > -1) {
-                rest = rest.split("://")[1];
-            }
-            host = rest.split("/")[0];
-
-            if (lowerLink.indexOf("http://") === 0) {
-                reasons.push("The link does not use HTTPS, so the connection is not secure.");
-            }
-
-            var digits = host.split(".").join("");
-            if (digits !== "" && !isNaN(digits)) {
-                reasons.push("The link uses a number address instead of a normal website name.");
-            }
-
-            if (lowerLink.indexOf("@") > -1) {
-                reasons.push("The link has an @ sign, which can hide the real website.");
-            }
-
-            if (shorteners.indexOf(host) > -1) {
-                reasons.push("It is a short link, so you cannot see where it really goes.");
-            }
-
-            if (host.indexOf("xn--") > -1) {
-                reasons.push("The website name uses look-alike letters.");
-            }
-
-            if (host.split(".").length > 4) {
-                reasons.push("The link has too many parts before the main website name.");
-            }
-
-            if (link.length > 75) {
-                reasons.push("The link is very long.");
-            }
-        }
-
-        scamWords.forEach(function (scamWord) {
-            if (lowerText.indexOf(scamWord) > -1) {
-                reasons.push("The message uses a pressure word: " + scamWord + ".");
-            }
-        });
-
-        var site = host !== "" ? "Website: " + host : "";
-        if (prefix) {
-            var shown = text.length > 90 ? text.slice(0, 90) + "..." : text;
-            site = prefix + shown;
-        }
-
-        if (link === "" && reasons.length === 0) {
-            showResult("No link found", "warn", prefix ? site : "", ["Paste a full link, like https://example.com, to check it."]);
-        } else if (reasons.length === 0) {
-            showResult("Looks safe", "safe", site, ["We did not find common warning signs."]);
-        } else if (reasons.length === 1) {
-            showResult("Be careful", "warn", site, reasons);
-        } else {
-            showResult("Dangerous: do not open", "danger", site, reasons);
+    var words = clean.split(" ");
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i].toLowerCase();
+        if (word.indexOf("http://") == 0 || word.indexOf("https://") == 0 || word.indexOf("www.") == 0) {
+            link = words[i];
+            break;
         }
     }
 
-    document.getElementById("url-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        analyze(urlInput.value, "");
-    });
+    if (link != "") {
+        var lowerLink = link.toLowerCase();
+        var rest = lowerLink;
 
+        if (rest.indexOf("://") > -1) {
+            rest = rest.split("://")[1];
+        }
+        host = rest.split("/")[0];
 
-    function readQR(file, done) {
-        var reader = new FileReader();
+        if (lowerLink.indexOf("http://") == 0) {
+            reasons.push("The link does not use HTTPS, so the connection is not secure.");
+        }
 
-        reader.onload = function () {
-            var image = new Image();
+        var digits = host.split(".").join("");
+        if (digits != "" && !isNaN(digits)) {
+            reasons.push("The link uses a number address instead of a normal website name.");
+        }
 
-            image.onload = function () {
-                var scale = Math.min(1, 1000 / Math.max(image.width, image.height));
-                var canvas = document.createElement("canvas");
-                canvas.width = Math.round(image.width * scale);
-                canvas.height = Math.round(image.height * scale);
+        if (lowerLink.indexOf("@") > -1) {
+            reasons.push("The link has an @ sign, which can hide the real website.");
+        }
 
-                var context = canvas.getContext("2d");
-                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        for (var j = 0; j < shorteners.length; j++) {
+            if (host == shorteners[j]) {
+                reasons.push("It is a short link, so you can't see where it really goes.");
+            }
+        }
 
-                var pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-                var code = jsQR(pixels.data, canvas.width, canvas.height);
-                done(code ? code.data : null);
-            };
+        if (host.indexOf("xn--") > -1) {
+            reasons.push("The website name uses look-alike letters.");
+        }
 
-            image.onerror = function () {
-                done(null);
-            };
+        if (host.split(".").length > 4) {
+            reasons.push("The link has too many parts before the main website name.");
+        }
 
-            image.src = reader.result;
-        };
-
-        reader.readAsDataURL(file);
+        if (link.length > 75) {
+            reasons.push("The link is very long.");
+        }
     }
 
-    document.getElementById("qr-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-        var file = qrFile.files[0];
-
-        if (!file) {
-            showResult("No image chosen", "warn", "", ["Please choose a QR code image first."]);
-            return;
+    for (var k = 0; k < scamWords.length; k++) {
+        if (lowerText.indexOf(scamWords[k]) > -1) {
+            reasons.push("The message uses a pressure word: " + scamWords[k] + ".");
         }
+    }
 
-        if (typeof jsQR === "undefined") {
-            showResult("QR reader not loaded", "warn", "", [
-                "Check your internet connection and reload the page.",
-                "You can also scan the code with your phone camera and paste the address in the link box."
-            ]);
-            return;
-        }
+    var site = "";
+    if (host != "") {
+        site = "Website: " + host;
+    }
 
-        readQR(file, function (text) {
-            if (text === null) {
-                showResult("QR code not found", "warn", "", [
-                    "We could not read a QR code in this image.",
-                    "Try a clearer picture where the whole code is visible."
-                ]);
-            } else {
-                analyze(text, "QR code says: ");
-            }
-        });
-    });
+    if (link == "" && reasons.length == 0) {
+        showResult("No link found", "warn", "", ["Paste a full link, like https://example.com, to check it."]);
+    } else if (reasons.length == 0) {
+        showResult("Looks safe", "safe", site, ["No common warning signs found."]);
+    } else if (reasons.length == 1) {
+        showResult("Be careful", "warn", site, reasons);
+    } else {
+        showResult("Dangerous, do not open", "danger", site, reasons);
+    }
+}
+
+function checkLink() {
+    analyze(document.getElementById("url-input").value);
+    return false;
+}
+
+function checkMessage() {
+    analyze(document.getElementById("msg-input").value);
+    return false;
+}
+
+function checkQR() {
+    var file = document.getElementById("qr-file").value;
+
+    if (file == "") {
+        showResult("No image chosen", "warn", "", ["Choose a QR code image first."]);
+    } else {
+        showResult("Check the link inside the code", "warn", "", [
+            "Read the code with your phone camera, but do not open the link.",
+            "Copy the web address, then use the Link tab to check it."
+        ]);
+    }
+
+    return false;
 }
