@@ -354,8 +354,8 @@ label {
     border-color: #f59e0b;
 }
 
-#url-input {
-    font-family: monospace;
+#url-input, #msg-input {
+    font-family: "JetBrains Mono", monospace;
 }
 
 .btn {
